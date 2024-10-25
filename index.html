@@ -1,101 +1,252 @@
-<!DOCTYPE html>
-<html class="full" lang="en">
-<!-- Make sure the <html> tag is set to the .full CSS class. Change the background image in the full.css file. -->
+import React, { useState, useEffect } from 'react';
+import { Mail, Globe, Book, Award, School, Briefcase, Binary, Database, Gamepad2, Sword, Brain, Zap } from 'lucide-react';
 
-<head>
+export default function CyberpunkProfile() {
+  const [glowColor, setGlowColor] = useState('rgb(0, 255, 255)');
+  const [isLoading, setIsLoading] = useState(true);
+  const [xpLevel, setXpLevel] = useState(0);
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  useEffect(() => {
+    const colors = [
+      'rgb(255, 0, 0)',    // Red
+      'rgb(255, 165, 0)',  // Orange
+      'rgb(255, 255, 0)',  // Yellow
+      'rgb(0, 255, 0)',    // Green
+      'rgb(0, 255, 255)',  // Cyan
+      'rgb(0, 0, 255)',    // Blue
+      'rgb(255, 0, 255)'   // Magenta
+    ];
+    let index = 0;
+    const interval = setInterval(() => {
+      index = (index + 1) % colors.length;
+      setGlowColor(colors[index]);
+    }, 1000);
 
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-<link href="https://fonts.googleapis.com/css?family=Akronim|Almendra+Display|Astloch|Bad+Script|Bungee+Hairline|Caesar+Dressing|Courgette|Dancing+Script|Dawning+of+a+New+Day|Euphoria+Script|Faster+One|Fredericka+the+Great|Great+Vibes|Irish+Grover|Jim+Nightshade|Kranky|League+Script|Lovers+Quarrel|Open+Sans|Pacifico|Qwigley" rel="stylesheet">
-    <title>KELLIA</title>
+    setTimeout(() => setIsLoading(false), 1500);
 
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    // XP Animation
+    const xpInterval = setInterval(() => {
+      setXpLevel(prev => (prev < 100 ? prev + 1 : 0));
+    }, 50);
 
-    <!-- Custom CSS -->
-    <link href="css/the-big-picture.css" rel="stylesheet">
+    return () => {
+      clearInterval(interval);
+      clearInterval(xpInterval);
+    };
+  }, []);
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-
-<body>
-
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">KELLIA</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="about.html">About</a>
-                    </li>
-                    <li>
-                        <a href="partners.html">Partners</a>
-                    </li>
-                    <li>
-                        <a href="products.html">Products</a>
-                    </li>
-                </ul>
-
-            </div>
-            <!-- /.navbar-collapse -->
+  if (isLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-black">
+        <div className="text-4xl font-bold animate-pulse bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent">
+          LOADING PROFILE v2.0.24...
         </div>
-        <!-- /.container -->
-    </nav>
+      </div>
+    );
+  }
 
-    <!-- Page Content -->
-    <div class="container">
-        <div class="row">
-           <div class="col-lg-12" align="left">
-            <hr>
-            <center> <h6><img src="img/logo1.png" width="100%"></h6>
-                <strong>كليا : ኬሊኣ :  כליה : քելլիա : ქელლია: кєлля : <small> 可李亜 </small> : <small>켈리아</small> : <small>ケリア</small>
-                </strong></center>
-            <hr>
-     
-                <p>KELLIA (the Koptische/Coptic Electronic Language and Literature International Alliance) is a partnership between digital Coptic projects and Copticists in Germany and the United States. 
-               
-               Kellia’s goals are to establish standards for digital Coptic projects, including for transcription of Coptic and metadata curation, and to create or adapt open-source tools for linguistic analysis and annotation. Kellia is funded by a bilateral <a href="https://www.neh.gov/">NEH</a>/<a href="http://www.dfg.de/">DFG</a> grant.</div>
-                </p>
-           
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-8 relative overflow-hidden" style={{
+      backgroundImage: 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/api/placeholder/1920/1080")',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed'
+    }}>
+      {/* Rainbow Border */}
+      <div className="fixed top-0 left-0 w-full h-2 animate-pulse bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500"></div>
+      
+      {/* Floating Particles Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-blue-500 rounded-full animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              opacity: 0.3
+            }}
+          />
+        ))}
+      </div>
 
-                <hr>
-    
-                <p>
+      {/* Header Section */}
+      <div className="mb-12 text-center relative">
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm -z-10 rounded-lg border border-purple-500/50"></div>
+        <div className="flex justify-center mb-4">
+          <img src="/api/placeholder/150/150" alt="Profile" className="rounded-full border-4 border-purple-500 animate-pulse" />
+        </div>
+        <h1 className="text-6xl font-bold mb-4 relative bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 bg-clip-text text-transparent" style={{
+          textShadow: `0 0 10px ${glowColor}, 0 0 20px ${glowColor}`
+        }}>
+          So Miyagawa
+          <div className="absolute -top-4 -right-4 text-xs animate-ping text-cyan-500">LVL 99</div>
+        </h1>
+        <h2 className="text-2xl mb-6 font-cyber relative">
+          <span className="bg-gradient-to-r from-yellow-500 to-pink-500 bg-clip-text text-transparent">
+            Digital Humanities // Language Systems Engineer
+          </span>
+        </h2>
+        
+        {/* XP Bar */}
+        <div className="max-w-md mx-auto mb-6">
+          <div className="h-4 bg-gray-800 rounded-full overflow-hidden border border-cyan-500">
+            <div 
+              className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-300"
+              style={{ width: `${xpLevel}%` }}
+            />
+          </div>
+          <div className="text-sm text-cyan-400 mt-1">XP: {xpLevel}/100</div>
+        </div>
 
-   <center> <a href="https://www.neh.gov/"><img src="img/neh.jpg" width="200" alt="NEH"></a>  |  
-        <a href="http://www.dfg.de/"><img src="img/dfg.png" width="300" alt="DFG"></a></center></br></br></br>
-</p>
+        <div className="flex justify-center gap-6 text-gray-300">
+          <div className="flex items-center gap-2 hover:text-pink-400 transition-colors cursor-pointer group">
+            <Mail className="animate-pulse group-hover:animate-spin" size={18} />
+            <span>miyagawa.so.kbu.tsukuba.ac.jp</span>
+          </div>
+          <div className="flex items-center gap-2 hover:text-pink-400 transition-colors group">
+            <Globe className="animate-pulse group-hover:animate-spin" size={18} />
+            <a href="https://somiyagawa.com" className="hover:underline">somiyagawa.com</a>
+          </div>
+        </div>
+      </div>
 
-    <!-- /.container -->
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        {/* Left Column */}
+        <div className="space-y-8">
+          {/* Current Positions */}
+          <section className="bg-black/60 p-6 rounded-lg border-2 border-pink-500/30 backdrop-blur-sm hover:border-pink-500 transition-all duration-300 transform hover:scale-105">
+            <div className="flex items-center gap-2 mb-4">
+              <Gamepad2 className="text-pink-400 animate-bounce" size={24} />
+              <h2 className="text-2xl font-bold text-pink-400">Current Quests</h2>
+            </div>
+            <ul className="space-y-2 text-gray-300">
+              <li className="flex items-center gap-2 group">
+                <span className="text-pink-500 group-hover:animate-spin">⚔️</span>
+                <span className="group-hover:text-pink-300">Associate Professor, University of Tsukuba</span>
+              </li>
+              <li className="flex items-center gap-2 group">
+                <span className="text-pink-500 group-hover:animate-spin">⚔️</span>
+                <span className="group-hover:text-pink-300">Visiting Associate Professor, NINJAL</span>
+              </li>
+              <li className="flex items-center gap-2 group">
+                <span className="text-pink-500 group-hover:animate-spin">⚔️</span>
+                <span className="group-hover:text-pink-300">Lecturer, Waseda University</span>
+              </li>
+            </ul>
+          </section>
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+          {/* Education */}
+          <section className="bg-black/60 p-6 rounded-lg border-2 border-cyan-500/30 backdrop-blur-sm hover:border-cyan-500 transition-all duration-300 transform hover:scale-105">
+            <div className="flex items-center gap-2 mb-4">
+              <Brain className="text-cyan-400 animate-pulse" size={24} />
+              <h2 className="text-2xl font-bold text-cyan-400">Skill Tree Mastery</h2>
+            </div>
+            <ul className="space-y-4 text-gray-300">
+              <li className="group">
+                <div className="font-semibold text-cyan-300 group-hover:text-cyan-400">
+                  Ph.D. Egyptology and Coptic Studies
+                  <span className="ml-2 text-xs bg-cyan-500 px-2 py-1 rounded-full">+100 INT</span>
+                </div>
+                <div className="text-gray-400">University of Göttingen [2022]</div>
+              </li>
+              <li className="group">
+                <div className="font-semibold text-cyan-300 group-hover:text-cyan-400">
+                  M.A. Linguistics
+                  <span className="ml-2 text-xs bg-cyan-500 px-2 py-1 rounded-full">+75 INT</span>
+                </div>
+                <div className="text-gray-400">Kyoto University [2015]</div>
+              </li>
+            </ul>
+          </section>
+        </div>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+        {/* Right Column */}
+        <div className="space-y-8">
+          {/* Research Interests */}
+          <section className="bg-black/60 p-6 rounded-lg border-2 border-green-500/30 backdrop-blur-sm hover:border-green-500 transition-all duration-300 transform hover:scale-105">
+            <div className="flex items-center gap-2 mb-4">
+              <Zap className="text-green-400 animate-pulse" size={24} />
+              <h2 className="text-2xl font-bold text-green-400">Power Skills</h2>
+            </div>
+            <ul className="grid grid-cols-2 gap-2">
+              {[
+                ["Historical Linguistics", 95],
+                ["Digital Humanities", 92],
+                ["Egyptology", 88],
+                ["Coptic Studies", 90],
+                ["NLP", 85],
+                ["Linguistic Typology", 87]
+              ].map(([item, level], index) => (
+                <li key={index} className="group">
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <span className="text-green-500 animate-pulse">⚡</span>
+                    <div className="w-full">
+                      <div className="group-hover:text-green-300">{item}</div>
+                      <div className="h-2 bg-gray-800 rounded-full mt-1">
+                        <div 
+                          className="h-full bg-gradient-to-r from-green-500 to-cyan-500 rounded-full"
+                          style={{ width: `${level}%` }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-</body>
+          {/* Awards */}
+          <section className="bg-black/60 p-6 rounded-lg border-2 border-yellow-500/30 backdrop-blur-sm hover:border-yellow-500 transition-all duration-300 transform hover:scale-105">
+            <div className="flex items-center gap-2 mb-4">
+              <Award className="text-yellow-400 animate-spin" size={24} />
+              <h2 className="text-2xl font-bold text-yellow-400">Achievement Unlocks</h2>
+            </div>
+            <ul className="space-y-3 text-gray-300">
+              {[
+                ["Director's Award", "NINJAL, 2023", "🏆"],
+                ["Academic Award", "Digital Archives Society, 2022", "🌟"],
+                ["Clark Award", "Hokkaido University, 2013", "✨"]
+              ].map(([title, detail, emoji], index) => (
+                <li key={index} className="flex items-center gap-2 group">
+                  <span className="text-yellow-500 text-2xl animate-bounce">{emoji}</span>
+                  <div>
+                    <div className="font-semibold text-yellow-300 group-hover:text-yellow-400">{title}</div>
+                    <div className="text-gray-400">{detail}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
 
-</html>
+      {/* Research Experience Timeline */}
+      <section className="mt-8 max-w-6xl mx-auto bg-black/60 p-6 rounded-lg border-2 border-blue-500/30 backdrop-blur-sm hover:border-blue-500 transition-all duration-300">
+        <div className="flex items-center gap-2 mb-6">
+          <Sword className="text-blue-400 animate-pulse" size={24} />
+          <h2 className="text-2xl font-bold text-blue-400">Quest History</h2>
+        </div>
+        <div className="space-y-4">
+          {[
+            ["2017-2020", "Digital Humanities Advisor", "Egyptian Museum and Papyrus Collection", "🏛️"],
+            ["2014-2022", "Research Fellow", "Coptic SCRIPTORIUM Project", "📚"],
+            ["2015-2020", "Research Fellow", "DFG Special Research Program", "🔬"],
+            ["2017-2018", "Visiting Researcher", "Hebrew University of Jerusalem", "🌍"]
+          ].map(([year, title, org, emoji], index) => (
+            <div key={index} className="flex gap-4 items-start group hover:bg-blue-500/10 p-2 rounded-lg transition-colors">
+              <div className="text-blue-400 font-mono whitespace-nowrap flex items-center gap-2">
+                <span className="text-xl">{emoji}</span>
+                [{year}]
+              </div>
+              <div>
+                <div className="font-semibold text-blue-300 group-hover:text-blue-400">{title}</div>
+                <div className="text-gray-400">{org}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
